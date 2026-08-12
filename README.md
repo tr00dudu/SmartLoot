@@ -22,3 +22,4 @@ Use /sloot or the minimap button for options.
 
 <img width="471" height="130" alt="image" src="https://github.com/user-attachments/assets/a9950f46-9de9-47f9-9aae-83387981629e" />
 
+<img width="446" height="45" alt="image" src="https://github.com/user-attachments/assets/ca1e9f0e-2fcd-4379-8b52-16c6a4a06894" />
