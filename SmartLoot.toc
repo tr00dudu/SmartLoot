@@ -1,0 +1,12 @@
+## Interface: 30300
+## Title: SmartLoot
+## Version: 1.3-wotlk
+## Author: Necros
+## Notes: Compact group loot frames with autoroll, Disenchant, and optional roll-spam summary for 3.3.5a
+## SavedVariablesPerCharacter: SmartLoot_Options, SmartLoot_Autoroll
+SmartLoot.lua
+SmartLootButton.lua
+SmartLootOptions.lua
+SmartLoot.xml
+SmartLootButton.xml
+SmartLootOptions.xml

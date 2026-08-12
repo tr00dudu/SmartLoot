@@ -1,0 +1,401 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/"   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"   xsi:schemaLocation="http://www.blizzard.com/wow/ui/">
+	<Button name="SmartLoot_RollButtonTemplate" inherits="UIPanelButtonTemplate" virtual="true">
+		<Size>
+			<AbsDimension x="42" y="18" />
+		</Size>
+		<NormalText inherits="GameFontNormalSmall"/>
+		<HighlightText inherits="GameFontHighlightSmall"/>
+	</Button>
+	
+	<Button name="SmartLoot_DropDownButtonTemplate" virtual="true"  motionScriptsWhileDisabled="true" >
+		<Size>
+			<AbsDimension x="22" y="22"/>
+		</Size>
+		<NormalTexture name="$parentNormalTexture" urgency="5" file="Interface\ChatFrame\UI-ChatIcon-ScrollDown-Up">
+			<Size>
+				<AbsDimension x="22" y="22"/>
+			</Size>
+			<Anchors>
+				<Anchor point="RIGHT"/>
+			</Anchors>
+		</NormalTexture>
+		<PushedTexture name="$parentPushedTexture" file="Interface\ChatFrame\UI-ChatIcon-ScrollDown-Down">
+			<Size>
+				<AbsDimension x="22" y="22"/>
+			</Size>
+			<Anchors>
+				<Anchor point="RIGHT"/>
+			</Anchors>
+		</PushedTexture>
+		<DisabledTexture name="$parentDisabledTexture" urgency="5" file="Interface\ChatFrame\UI-ChatIcon-ScrollDown-Disabled">
+			<Size>
+				<AbsDimension x="22" y="22"/>
+			</Size>
+			<Anchors>
+				<Anchor point="RIGHT"/>
+			</Anchors>
+		</DisabledTexture>
+		<HighlightTexture name="$parentHighlightTexture" file="Interface\Buttons\UI-Common-MouseHilight" alphaMode="ADD">
+			<Size>
+				<AbsDimension x="22" y="22"/>
+			</Size>
+			<Anchors>
+				<Anchor point="RIGHT"/>
+			</Anchors>
+		</HighlightTexture>
+	</Button>
+
+	<Frame name="SmartLoot_RollTemplate" frameStrata="HIGH" virtual="true" parent="UIParent">
+		<Size>
+			<AbsDimension x="350" y="40"/>
+		</Size>
+		<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background">
+		</Backdrop>
+		<Frames>
+			<Button name="$parent_Icon">
+				<Size>
+					<AbsDimension x="35" y="35"/>
+				</Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="TOPLEFT">
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="ARTWORK">
+						<Texture name="$parent_Image">
+							<Size>
+								<AbsDimension x="35" y="35"/>
+							</Size>
+							<Anchors>
+								<Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="TOPLEFT"/>
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnEnter>
+						SmartLoot.OnIconEnter(self:GetParent())
+					</OnEnter>
+					<OnLeave>
+						SmartLoot.OnIconLeave(self:GetParent())
+					</OnLeave>
+				</Scripts>
+			</Button>
+			<Button name="$parent_Info">
+				<Size>
+					<AbsDimension x="305" y="15"/>
+				</Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parent_Icon" relativePoint="TOPRIGHT">
+						<Offset>
+							<AbsDimension x="5" y="0" />
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="ARTWORK">
+						<FontString name="$parent_ItemName" inherits="GameFontNormal" justifyH="LEFT">
+							<Size>
+								<AbsDimension x="305" y="15"/>
+							</Size>
+							<Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="TOPLEFT">
+							</Anchor>
+						</FontString>
+					</Layer>
+				</Layers>
+			</Button>
+
+			<!-- Vote counts sit left of each roll button; group gap ~1/3 button width -->
+			<Frame name="$parent_NeedVotes" enableMouse="true">
+				<Size>
+					<AbsDimension x="14" y="18"/>
+				</Size>
+				<Anchors>
+					<Anchor point="BOTTOMLEFT" relativeTo="$parent_Icon" relativePoint="BOTTOMRIGHT">
+						<Offset>
+							<AbsDimension x="4" y="2"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="ARTWORK">
+						<FontString name="$parent_Text" inherits="GameFontHighlightSmall" text="0" justifyH="RIGHT" setAllPoints="true"/>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnLoad>
+						self.choice = "need";
+					</OnLoad>
+					<OnEnter>
+						SmartLoot.OnVoteCountEnter(self);
+					</OnEnter>
+					<OnLeave>
+						GameTooltip:Hide();
+					</OnLeave>
+				</Scripts>
+			</Frame>
+			<Button name="$parent_Need" inherits="SmartLoot_RollButtonTemplate" text="Need">
+				<Anchors>
+					<Anchor point="BOTTOMLEFT" relativeTo="$parent_NeedVotes" relativePoint="BOTTOMRIGHT">
+						<Offset>
+							<AbsDimension x="1" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						SmartLoot.RollNeed(self:GetParent());
+					</OnClick>
+				</Scripts>
+			</Button>
+			<Button name="$parent_NeedAdvanced" inherits="SmartLoot_DropDownButtonTemplate">
+				<Anchors>
+					<Anchor point="BOTTOMLEFT" relativeTo="$parent_Need" relativePoint="BOTTOMRIGHT">
+						<Offset>
+							<AbsDimension x="-3" y="-2"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						local parentName = self:GetParent():GetName();
+						ToggleDropDownMenu(nil, nil, getglobal(parentName.."_AdvancedNeedDropDown"), parentName.."_Need", -45, 5);
+					</OnClick>
+				</Scripts>
+			</Button>
+
+			<Frame name="$parent_GreedVotes" enableMouse="true">
+				<Size>
+					<AbsDimension x="14" y="18"/>
+				</Size>
+				<Anchors>
+					<Anchor point="BOTTOMLEFT" relativeTo="$parent_NeedAdvanced" relativePoint="BOTTOMRIGHT">
+						<Offset>
+							<AbsDimension x="2" y="2"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="ARTWORK">
+						<FontString name="$parent_Text" inherits="GameFontHighlightSmall" text="0" justifyH="RIGHT" setAllPoints="true"/>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnLoad>
+						self.choice = "greed";
+					</OnLoad>
+					<OnEnter>
+						SmartLoot.OnVoteCountEnter(self);
+					</OnEnter>
+					<OnLeave>
+						GameTooltip:Hide();
+					</OnLeave>
+				</Scripts>
+			</Frame>
+			<Button name="$parent_Greed" inherits="SmartLoot_RollButtonTemplate" text="Greed">
+				<Anchors>
+					<Anchor point="BOTTOMLEFT" relativeTo="$parent_GreedVotes" relativePoint="BOTTOMRIGHT">
+						<Offset>
+							<AbsDimension x="1" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						SmartLoot.RollGreed(self:GetParent());
+					</OnClick>
+				</Scripts>
+			</Button>
+			<Button name="$parent_GreedAdvanced" inherits="SmartLoot_DropDownButtonTemplate">
+				<Anchors>
+					<Anchor point="BOTTOMLEFT" relativeTo="$parent_Greed" relativePoint="BOTTOMRIGHT">
+						<Offset>
+							<AbsDimension x="-3" y="-2"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						local parentName = self:GetParent():GetName();
+						ToggleDropDownMenu(nil, nil, getglobal(parentName.."_AdvancedGreedDropDown"), parentName.."_Need", -45, 5);
+					</OnClick>
+				</Scripts>
+			</Button>
+
+			<Frame name="$parent_DisenchantVotes" enableMouse="true">
+				<Size>
+					<AbsDimension x="14" y="18"/>
+				</Size>
+				<Anchors>
+					<Anchor point="BOTTOMLEFT" relativeTo="$parent_GreedAdvanced" relativePoint="BOTTOMRIGHT">
+						<Offset>
+							<AbsDimension x="2" y="2"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="ARTWORK">
+						<FontString name="$parent_Text" inherits="GameFontHighlightSmall" text="0" justifyH="RIGHT" setAllPoints="true"/>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnLoad>
+						self.choice = "disenchant";
+					</OnLoad>
+					<OnEnter>
+						SmartLoot.OnVoteCountEnter(self);
+					</OnEnter>
+					<OnLeave>
+						GameTooltip:Hide();
+					</OnLeave>
+				</Scripts>
+			</Frame>
+			<Button name="$parent_Disenchant" inherits="SmartLoot_RollButtonTemplate" text="DE">
+				<Anchors>
+					<Anchor point="BOTTOMLEFT" relativeTo="$parent_DisenchantVotes" relativePoint="BOTTOMRIGHT">
+						<Offset>
+							<AbsDimension x="1" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						SmartLoot.RollDisenchant(self:GetParent());
+					</OnClick>
+				</Scripts>
+			</Button>
+			<Button name="$parent_DisenchantAdvanced" inherits="SmartLoot_DropDownButtonTemplate">
+				<Anchors>
+					<Anchor point="BOTTOMLEFT" relativeTo="$parent_Disenchant" relativePoint="BOTTOMRIGHT">
+						<Offset>
+							<AbsDimension x="-3" y="-2"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						local parentName = self:GetParent():GetName();
+						ToggleDropDownMenu(nil, nil, getglobal(parentName.."_AdvancedDisenchantDropDown"), parentName.."_Need", -45, 5);
+					</OnClick>
+				</Scripts>
+			</Button>
+
+			<Frame name="$parent_PassVotes" enableMouse="true">
+				<Size>
+					<AbsDimension x="14" y="18"/>
+				</Size>
+				<Anchors>
+					<Anchor point="BOTTOMLEFT" relativeTo="$parent_DisenchantAdvanced" relativePoint="BOTTOMRIGHT">
+						<Offset>
+							<AbsDimension x="2" y="2"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="ARTWORK">
+						<FontString name="$parent_Text" inherits="GameFontHighlightSmall" text="0" justifyH="RIGHT" setAllPoints="true"/>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnLoad>
+						self.choice = "pass";
+					</OnLoad>
+					<OnEnter>
+						SmartLoot.OnVoteCountEnter(self);
+					</OnEnter>
+					<OnLeave>
+						GameTooltip:Hide();
+					</OnLeave>
+				</Scripts>
+			</Frame>
+			<Button name="$parent_Pass" inherits="SmartLoot_RollButtonTemplate" text="Pass">
+				<Anchors>
+					<Anchor point="BOTTOMLEFT" relativeTo="$parent_PassVotes" relativePoint="BOTTOMRIGHT">
+						<Offset>
+							<AbsDimension x="1" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						SmartLoot.Pass(self:GetParent());
+					</OnClick>
+				</Scripts>
+			</Button>
+			<Button name="$parent_PassAdvanced" inherits="SmartLoot_DropDownButtonTemplate">
+				<Anchors>
+					<Anchor point="BOTTOMLEFT" relativeTo="$parent_Pass" relativePoint="BOTTOMRIGHT">
+						<Offset>
+							<AbsDimension x="-3" y="-2"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						local parentName = self:GetParent():GetName();
+						ToggleDropDownMenu(nil, nil, getglobal(parentName.."_AdvancedPassDropDown"), parentName.."_Need", -45, 5);
+					</OnClick>
+				</Scripts>
+			</Button>
+			<StatusBar name="$parent_Timeout">
+				<Size>
+					<AbsDimension x="350" y="5" />
+				</Size>
+				<Anchors>
+					<Anchor point="BOTTOMLEFT" relativeTo="$parent" relativePoint="BOTTOMLEFT" />
+				</Anchors>
+				<BarTexture file="Interface\TargetingFrame\UI-StatusBar"/>
+				<BarColor r="1.0" g="0.7" b="0.0"/>
+				<Scripts>
+					<OnUpdate>
+						SmartLoot.OnTimeoutBarUpdate(self:GetParent());
+					</OnUpdate>
+				</Scripts>
+			</StatusBar>
+		</Frames>
+	</Frame>
+
+	<Frame name="SmartLoot_LootFrame_Anchor" frameStrata="HIGH" enableMouse="true" movable="true" parent="UIParent">
+		<Size>
+			<AbsDimension x="200" y="20" />
+		</Size>
+  
+		<Anchors>
+			<Anchor point="CENTER" relativeTo="UIParent" relativePoint="CENTER" />
+		</Anchors>
+  
+		<TitleRegion setAllPoints="true" />
+  
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString inherits="GameFontHighlight" text="SmartLoot Anchor" justifyH="Center">
+					<Size>
+						<AbsDimension x="200" y="20" />
+					</Size>
+  
+					<Anchors>
+						<Anchor point="BOTTOMLEFT" relativeTo="$parent" relativePoint="BOTTOMLEFT" />
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+  
+		<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background"/>
+    
+		<Scripts>
+			<OnLoad>
+				SmartLoot.OnLoad(self)
+				self:RegisterForDrag("LeftButton")
+			</OnLoad>
+			<OnDragStart>
+			 	self:StartMoving()
+			</OnDragStart>
+			<OnDragStop>
+				self:StopMovingOrSizing()
+			</OnDragStop>
+			<OnEvent>
+				SmartLoot.OnEvent(self, event, ...)
+			</OnEvent>
+		</Scripts>
+  </Frame>
+</Ui>
