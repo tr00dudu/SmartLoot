@@ -1,5 +1,4 @@
 # SmartLoot 1.3-wotlk
-===================
 
 Compact group loot frames for World of Warcraft 3.3.5a (Developed on ChromieCraft).
 
