@@ -4,16 +4,20 @@ Compact group loot frames for World of Warcraft 3.3.5a (Developed on ChromieCraf
 
 Based on SmartLoot by Necroskillz / Classic port by Sulpitz.
 
-Features
---------
-- Compact movable group loot frames (Need / Greed / Disenchant / Pass)
-- Always Need/Greed/DE/Pass on named items (DE falls back to Greed when unavailable)
-- Autoconfirm BoP / DE confirms for autorolls or all rolls
-- Prebuilt Uncommon weapons / Uncommon gear autoroll (Off / DE→Greed / Pass)
-- Optional filter for chat roll spam with a compact yellow roll summary
-- Per-character settings
+Original features
+-----------------
+- Compact movable group loot frames with Need / Greed / Pass
+- Always Need/Greed/Pass on named items
+- Autoconfirm for autorolls or all BoP rolls
+- Per-character settings (`/sloot` or minimap button)
 
-Use /sloot or the minimap button for options.
+What's new in 1.3-wotlk
+-----------------------
+- Disenchant support (DE falls back to Greed when unavailable)
+- Generic Uncommon weapons / gear autoroll (Need / Greed / DE / Pass / Off)
+- Optional chat roll-spam filter with a compact yellow roll summary
+- Optional live “who selected what” counts on the roll frame (hover for names)
+- Grow loot frames upward, and a cleaned-up General / Positioning / Auto Roll options UI
 
 Screenshots
 --------
