@@ -699,9 +699,10 @@ function SmartLoot.OnVoteCountEnter(voteFrame)
 end
 
 function SmartLoot.ClearLoot(rollId)
+	rollId = tonumber(rollId) or rollId;
 	local clearedKey = nil;
 	for i, loot in ipairs(SmartLoot.Queue) do
-		if(loot.rollId == rollId) then
+		if(tonumber(loot.rollId) == rollId or loot.rollId == rollId) then
 			clearedKey = loot.itemKey;
 			table.remove(SmartLoot.Queue, i);
 			break;
@@ -731,12 +732,23 @@ function SmartLoot.OnTimeoutBarUpdate(self)
 	if(not self.loot) then
 		return;
 	end
-	local timeoutBar = getglobal(self:GetName().."_Timeout");
-	local remaining = GetLootRollTimeLeft(self.loot.rollId);
 
-	if(remaining and remaining > 0) then
-		timeoutBar:SetValue(remaining);
+	local rollId = self.loot.rollId;
+	-- Fake test loot has no server roll id
+	if(rollId == -1) then
+		return;
 	end
+
+	local remaining = GetLootRollTimeLeft(rollId);
+	-- Like XLootGroup's timeout path: roll is gone when time is nil/<=0 (CANCEL may not always fire).
+	-- Huge values are a known dead-roll sentinel on some clients.
+	if(not remaining or remaining <= 0 or remaining > 1000000000) then
+		SmartLoot.ClearLoot(rollId);
+		return;
+	end
+
+	local timeoutBar = getglobal(self:GetName().."_Timeout");
+	timeoutBar:SetValue(remaining);
 end
 
 function SmartLoot.RollNeed(self)
