@@ -943,14 +943,35 @@ function SmartLoot.EmitRollSummary(itemKey)
 	table.sort(list, function(a, b)
 		return a.roll > b.roll;
 	end);
+
+	local me = UnitName("player");
+	local myIndex = nil;
+	for i = 1, #list do
+		if(list[i].name == me) then
+			myIndex = i;
+			break;
+		end
+	end
+
 	local parts = {};
 	local top = math.min(3, #list);
 	for i = 1, top do
 		table.insert(parts, list[i].name.." ("..list[i].roll..")");
 	end
+
+	local shownCount = top;
+	if(myIndex and myIndex > top) then
+		if(myIndex > top + 1) then
+			table.insert(parts, "...");
+		end
+		table.insert(parts, list[myIndex].name.." ("..list[myIndex].roll..")");
+		shownCount = shownCount + 1;
+	end
+
 	local line = prefix.." for "..itemDisplay..": "..table.concat(parts, ", ");
-	if(#list > 3) then
-		line = line..", +"..(#list - 3);
+	local hidden = #list - shownCount;
+	if(hidden > 0) then
+		line = line..", +"..hidden;
 	end
 
 	DEFAULT_CHAT_FRAME:AddMessage(line, 1.0, 1.0, 0.0);
