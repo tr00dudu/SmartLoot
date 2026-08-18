@@ -44,6 +44,8 @@ Screenshots
   <em>Set auto-roll for specific items</em>
 </p>
 
+<br>
+
 <p align="center">
   <img width="471" height="130" alt="image" src="https://github.com/user-attachments/assets/a9950f46-9de9-47f9-9aae-83387981629e" />
   <br>
