@@ -38,9 +38,9 @@ SmartLoot.Res = {
 		Label = "Show anchor";
 		Tooltip = "";
 	};
-	HideDefaultFrames = {
-		Label = "Hide default loot frames";
-		Tooltip = "Whether to hide default blizzard group loot UI. Unchecking this will show any active loot frames. Can be used for debugging.";
+	UseSmartLootFrames = {
+		Label = "Use SmartLoot Frames";
+		Tooltip = "Show SmartLoot roll frames and hide Blizzard's. Uncheck to use the default loot frames; autoroll, confirm, and chat options still apply.";
 	};
 	AutoLoot = {
 		Label = "Auto roll";
@@ -68,7 +68,7 @@ SmartLoot.Res = {
 	};
 	ShowSelectedRolls = {
 		Label = "Show selected rolls";
-		Tooltip = "Show a count beside Need/Greed/DE/Pass of how many players picked each option. Hover a count to see who.";
+		Tooltip = "Show a count beside Need/Greed/DE/Pass of how many players picked each option. Hover a count to see who. Only works with Use SmartLoot Frames enabled.";
 	};
 	LootFrameCount = {
 		Label = "Loot frame count";
@@ -108,7 +108,7 @@ function SmartLoot.OnEvent(self, event, ...)
 	local timeout = arg2;
 
 	if(event == "START_LOOT_ROLL") then
-		if(SmartLoot_Options.HideDefaultFrames) then
+		if(SmartLoot_Options.UseSmartLootFrames) then
 			SmartLoot.ToggleDefaultFrames(false);
 		end
 
@@ -124,7 +124,9 @@ function SmartLoot.OnEvent(self, event, ...)
 			end
 		end
 
-		SmartLoot.QueueLoot(rollId, timeout, texture, name, quality, canNeed, canGreed, canDis, link);
+		if(SmartLoot_Options.UseSmartLootFrames) then
+			SmartLoot.QueueLoot(rollId, timeout, texture, name, quality, canNeed, canGreed, canDis, link);
+		end
 
 	elseif(event == "CANCEL_LOOT_ROLL") then
 		SmartLoot.ClearAutoConfirm(rollId);
@@ -156,7 +158,7 @@ function SmartLoot.EnsureOptions()
 	end;
 
 	set("ShowAnchor", true);
-	set("HideDefaultFrames", true);
+	set("UseSmartLootFrames", true);
 	set("AutoLoot", true);
 	set("AutoConfirmAll", false);
 	SmartLoot_Options.AutoConfirm = nil; -- removed; auto-rolls always confirm
@@ -959,20 +961,30 @@ function SmartLoot.EmitRollSummary(itemKey)
 		table.insert(parts, list[i].name.." ("..list[i].roll..")");
 	end
 
-	local shownCount = top;
-	if(myIndex and myIndex > top) then
-		if(myIndex > top + 1) then
+	local trailingEllipsis = false;
+	if(myIndex) then
+		if(myIndex == top + 1) then
+			-- 4th: directly after top 3
+			table.insert(parts, list[myIndex].name.." ("..list[myIndex].roll..")");
+		elseif(myIndex > top + 1) then
+			-- Below 4th: gap marker, then you
 			table.insert(parts, "...");
+			table.insert(parts, list[myIndex].name.." ("..list[myIndex].roll..")");
 		end
-		table.insert(parts, list[myIndex].name.." ("..list[myIndex].roll..")");
-		shownCount = shownCount + 1;
+		-- If you're already in the top 3, you're listed above; don't duplicate.
+		if(myIndex < #list) then
+			trailingEllipsis = true;
+		end
+	elseif(#list > top) then
+		trailingEllipsis = true;
 	end
 
+	local rollWord = (#list == 1) and "roll" or "rolls";
 	local line = prefix.." for "..itemDisplay..": "..table.concat(parts, ", ");
-	local hidden = #list - shownCount;
-	if(hidden > 0) then
-		line = line..", +"..hidden;
+	if(trailingEllipsis) then
+		line = line.." ...";
 	end
+	line = line.." ("..#list.." "..rollWord..")";
 
 	DEFAULT_CHAT_FRAME:AddMessage(line, 1.0, 1.0, 0.0);
 end

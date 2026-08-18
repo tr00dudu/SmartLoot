@@ -236,11 +236,20 @@
 						</Anchor>
 					</Anchors>
 				</FontString>
+				<FontString name="$parent_SmartLootFramesTitle" inherits="GameFontHighlight" text="SmartLoot Frames" justifyH="LEFT">
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset>
+								<AbsDimension x="20" y="-155"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
 				<FontString name="$parent_PositioningTitle" inherits="GameFontHighlight" text="Positioning" justifyH="LEFT">
 					<Anchors>
 						<Anchor point="TOPLEFT">
 							<Offset>
-								<AbsDimension x="20" y="-205"/>
+								<AbsDimension x="20" y="-230"/>
 							</Offset>
 						</Anchor>
 					</Anchors>
@@ -285,29 +294,11 @@
 					</OnLoad>
 				</Scripts>
 			</CheckButton>
-			<CheckButton name="$parent_HideDefaultFrames" inherits="OptionsCheckButtonTemplate">
-				<Anchors>
-					<Anchor point="TOPLEFT">
-						<Offset>
-							<AbsDimension x="20" y="-73"/>
-						</Offset>
-					</Anchor>
-				</Anchors>
-				<Scripts>
-					<OnClick>
-						SmartLoot.SetOption("HideDefaultFrames", self:GetChecked());
-					</OnClick>
-					<OnLoad>
-						getglobal(self:GetName().."Text"):SetText(SmartLoot.Res.HideDefaultFrames.Label);
-						getglobal(self:GetName()).tooltipText = SmartLoot.Res.HideDefaultFrames.Tooltip;
-					</OnLoad>
-				</Scripts>
-			</CheckButton>
 			<CheckButton name="$parent_AutoConfirmAll" inherits="OptionsCheckButtonTemplate">
 				<Anchors>
 					<Anchor point="TOPLEFT">
 						<Offset>
-							<AbsDimension x="20" y="-98"/>
+							<AbsDimension x="20" y="-73"/>
 						</Offset>
 					</Anchor>
 				</Anchors>
@@ -325,7 +316,7 @@
 				<Anchors>
 					<Anchor point="TOPLEFT">
 						<Offset>
-							<AbsDimension x="20" y="-123"/>
+							<AbsDimension x="20" y="-98"/>
 						</Offset>
 					</Anchor>
 				</Anchors>
@@ -344,7 +335,7 @@
 				<Anchors>
 					<Anchor point="TOPLEFT">
 						<Offset>
-							<AbsDimension x="35" y="-148"/>
+							<AbsDimension x="35" y="-123"/>
 						</Offset>
 					</Anchor>
 				</Anchors>
@@ -358,11 +349,31 @@
 					</OnLoad>
 				</Scripts>
 			</CheckButton>
-			<CheckButton name="$parent_ShowSelectedRolls" inherits="OptionsCheckButtonTemplate">
+
+			<!-- LEFT COLUMN: SmartLoot Frames -->
+			<CheckButton name="$parent_UseSmartLootFrames" inherits="OptionsCheckButtonTemplate">
 				<Anchors>
 					<Anchor point="TOPLEFT">
 						<Offset>
 							<AbsDimension x="20" y="-173"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						SmartLoot.SetOption("UseSmartLootFrames", self:GetChecked());
+					</OnClick>
+					<OnLoad>
+						getglobal(self:GetName().."Text"):SetText(SmartLoot.Res.UseSmartLootFrames.Label);
+						getglobal(self:GetName()).tooltipText = SmartLoot.Res.UseSmartLootFrames.Tooltip;
+					</OnLoad>
+				</Scripts>
+			</CheckButton>
+			<CheckButton name="$parent_ShowSelectedRolls" inherits="OptionsCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset>
+							<AbsDimension x="20" y="-198"/>
 						</Offset>
 					</Anchor>
 				</Anchors>
@@ -382,7 +393,7 @@
 				<Anchors>
 					<Anchor point="TOPLEFT">
 						<Offset>
-							<AbsDimension x="20" y="-223"/>
+							<AbsDimension x="20" y="-248"/>
 						</Offset>
 					</Anchor>
 				</Anchors>
@@ -400,7 +411,7 @@
 				<Anchors>
 					<Anchor point="TOPLEFT">
 						<Offset>
-							<AbsDimension x="25" y="-250"/>
+							<AbsDimension x="25" y="-275"/>
 						</Offset>
 					</Anchor>
 				</Anchors>
@@ -489,7 +500,7 @@
 				<Anchors>
 					<Anchor point="TOPLEFT">
 						<Offset>
-							<AbsDimension x="20" y="-272"/>
+							<AbsDimension x="20" y="-297"/>
 						</Offset>
 					</Anchor>
 				</Anchors>
@@ -507,7 +518,7 @@
 				<Anchors>
 					<Anchor point="TOPLEFT">
 						<Offset>
-							<AbsDimension x="20" y="-310"/>
+							<AbsDimension x="20" y="-335"/>
 						</Offset>
 					</Anchor>
 				</Anchors>

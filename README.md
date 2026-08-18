@@ -17,7 +17,7 @@ What's new in 1.3-wotlk
 - Generic Uncommon weapons / gear autoroll (Need / Greed / DE / Pass / Off)
 - Optional chat roll-spam filter with a compact yellow roll summary
 - Optional live "who selected what" counts on the roll frame (hover for names)
-- Toggle SmartLoot roll frames or default blizzard roll frames (You can use other features without changing roll frames)
+- Toggle SmartLoot roll frames or default blizzard roll frames (You can use other features of the addon while keeping default roll frames)
 
 Screenshots
 --------

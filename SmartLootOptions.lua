@@ -5,7 +5,7 @@ function SmartLoot.PopulateOptionsUI()
 	end;
 
 	setCheckbox("ShowAnchor");
-	setCheckbox("HideDefaultFrames");
+	setCheckbox("UseSmartLootFrames");
 	setCheckbox("AutoLoot", SmartLoot_OptionsFrame_AutoRollPanel_AutoLoot);
 	setCheckbox("AutoConfirmAll");
 	setCheckbox("ShowMinimapButton");
@@ -17,9 +17,31 @@ function SmartLoot.PopulateOptionsUI()
 	SmartLoot_OptionsFrame_LootFrameCount_CountText:SetText(SmartLoot_Options.LootFrameCount);
 
 	SmartLoot.UpdateRollSummaryCheckboxState();
+	SmartLoot.UpdateSmartLootFramesOptionsState();
 	SmartLoot.UpdateGenericRollUI();
 	SmartLoot.RefreshAutorollList();
 	SmartLoot.UpdateAutoLootUIState();
+end
+
+function SmartLoot.UpdateSmartLootFramesOptionsState()
+	local enabled = not not SmartLoot_Options.UseSmartLootFrames;
+	local function setEnabled(frame)
+		if(not frame) then
+			return;
+		end
+		if(enabled) then
+			frame:Enable();
+		else
+			frame:Disable();
+		end
+	end
+
+	setEnabled(SmartLoot_OptionsFrame_ShowSelectedRolls);
+	setEnabled(SmartLoot_OptionsFrame_ShowAnchor);
+	setEnabled(SmartLoot_OptionsFrame_LootGrowUp);
+	setEnabled(SmartLoot_OptionsFrame_TestLoot);
+	setEnabled(SmartLoot_OptionsFrame_LootFrameCount_Dec);
+	setEnabled(SmartLoot_OptionsFrame_LootFrameCount_Inc);
 end
 
 function SmartLoot.UpdateAutoLootUIState()
@@ -233,8 +255,8 @@ function SmartLoot.SetOption(option, value)
 	elseif(option == "LootGrowUp") then
 		SmartLoot.CreateLootFrames();
 		SmartLoot.ProcessQueue();
-	elseif(option == "HideDefaultFrames") then
-		SmartLoot.ToggleDefaultFrames(not value);
+	elseif(option == "UseSmartLootFrames") then
+		SmartLoot.UpdateSmartLootFramesOptionsState();
 	elseif(option == "ShowMinimapButton" or option == "MinimapButtonPosition") then
 		SmartLoot.UpdateMinimapButtonPosition();
 	elseif(option == "FilterChatRollSpam") then
