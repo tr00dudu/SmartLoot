@@ -1,8 +1,8 @@
 # SmartLoot 1.3-wotlk
 
-Compact group loot frames for World of Warcraft 3.3.5a (Developed on ChromieCraft).
+Smart group loot addon for World of Warcraft 3.3.5a (Developed on ChromieCraft).
 
-Based on SmartLoot by Necroskillz / Classic port by Sulpitz.
+SmartLoot frames based on SmartLoot by Necroskillz / Classic port by Sulpitz.
 
 Original features
 -----------------
@@ -16,14 +16,14 @@ What's new in 1.3-wotlk
 - Disenchant support (DE falls back to Greed when unavailable)
 - Generic Uncommon weapons / gear autoroll (Need / Greed / DE / Pass / Off)
 - Optional chat roll-spam filter with a compact yellow roll summary
-- Optional live “who selected what” counts on the roll frame (hover for names)
-- Grow loot frames upward, and a cleaned-up General / Positioning / Auto Roll options UI
+- Optional live "who selected what" counts on the roll frame (hover for names)
+- Toggle SmartLoot roll frames or default blizzard roll frames (You can use other features without changing roll frames)
 
 Screenshots
 --------
 
 <p align="center">
-  <img width="835" height="700" alt="image" src="https://github.com/user-attachments/assets/9918271e-c081-4b9a-8b0f-832521180a70" />
+  <img width="826" height="692" alt="image" src="https://github.com/user-attachments/assets/19f532e8-9c72-4d72-bd6a-cbb01c247864" />
   <br>
   <em></em>
 </p>
@@ -39,9 +39,15 @@ Screenshots
 <br>
 
 <p align="center">
+  <img width="578" height="149" alt="image" src="https://github.com/user-attachments/assets/47a3139b-06a2-4ab4-85d6-44dd5179a918" />
+  <br>
+  <em>Set auto-roll for specific items</em>
+</p>
+
+<p align="center">
   <img width="471" height="130" alt="image" src="https://github.com/user-attachments/assets/a9950f46-9de9-47f9-9aae-83387981629e" />
   <br>
-  <em>Roll options other players selected</em>
+  <em>What other players selected</em>
 </p>
 
 <br>
