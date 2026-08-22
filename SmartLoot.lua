@@ -982,7 +982,7 @@ function SmartLoot.EmitRollSummary(itemKey)
 	local rollWord = (#list == 1) and "roll" or "rolls";
 	local line = prefix.." for "..itemDisplay..": "..table.concat(parts, ", ");
 	if(trailingEllipsis) then
-		line = line.." ...";
+		line = line..", ...";
 	end
 	line = line.." ("..#list.." "..rollWord..")";
 
